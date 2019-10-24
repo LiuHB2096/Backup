@@ -1,79 +1,74 @@
-# Henry Liu
+# Henry Liu# Henry Liu
 # Period 4
 
-print("Welcome to Hangman!")
+
+import random
+mysteryWord = ['boxes', 'france', 'frogs','mouse', 'black', 'table']
+secretWord = random.choice(mysteryWord)
+
+myList = list(secretWord)
+
+
+guesses = []
+correctLetters = []
+wrongLetters = []
+
+correct = 0
+wrong = 0
+
+print("WELCOME TO HANGMAN! ")
+print()
+
+while True:
+    print()
+    try:
+        misses = int(input("How many wrong chances would you like to guess the word? "))
+    except ValueError:
+        print("Please pick an integer. ")
+        continue
+    else:
+        break
 
 
 
-myWord = "hello"
+print("Try to guess the word in under " + str(misses) + " wrong guesses!")
+print("The word has " + str(len(secretWord)) + " letters. ")
+
+for letter in myList:
+  correctLetters.append("_")
+print(correctLetters)
 
 
 while True:
-	choice = input("What do you think the word is? ")
+  playerLetter = input("Please pick one letter from the alphabet that would be your guess. ")
 
-	if choice == myWord:
-		print("That's a match! ")
-		break
-	else:
-		print("That isn't a match. ")
-
-letter = input("Type in a letter. ")
-if letter in myWord:
-	print("The letter is in the word. ")	
-else: 
-	print("The letter isn't in the word. ")
+  if playerLetter in myList:
+    index = myList.index(str(playerLetter))
+    correctLetters.pop(int(index))
+    correctLetters.insert(int(index), playerLetter)
+    print(correctLetters)
+    
+    print("The letter " + str(playerLetter) + " is in the word! ")
+    print("Wrong guess #" + str(wrong))
+    print("These are your wrong guesses: " + str(wrongLetters))
 
 
-count = 0
-for l in myWord:
-	if l == letter:
-		print(count)
-	count += 1
-
-
-
-
-import time
-import os
-
-#how to turn a string in to a list
-myString = "arizona"
-myList = list(myString)
-print(myList)
-
-# how to create a list _ where the letters go
-guessList = []
-for a in myList:
-	guessList.append("_")
-
-print(guessList)
-
-# how to replace a specific item in list
-# so say the user types r for a guess, you would 
-guessList[1] = "r"
-print(guessList)
-
-
-secretWord = "christmas"
-secretWord = list(secretWord)
-hangmanList = ['''
-   +==========+
-   			  |
-   			  |
-   			  |
-   			  |
-	===========|''' , "second", "thrid" ]
-
-
-misses = 0
-while misses > 7:
-	guess = input("Guess a letter. ")
-	if guess in secretWord:
-		# loop through secretWord and change my guessList at the correct indexes
-
-	else:
-		misses += 1
-		print(hangmanList[misses])
-
-		
-print("game over")
+  if playerLetter not in myList:
+    print()
+    print(correctLetters)
+    print("The letter " + str(playerLetter) + " is not in the word. ")
+    wrong = wrong + 1
+    print()
+    print("Wrong guess #" + str(wrong))
+    wrongLetters.append(playerLetter)
+    print("These are your wrong guesses: " + str(wrongLetters))
+  if correctLetters[0] == myList[0] and correctLetters[1] == myList[1] and correctLetters[2] == myList[2] and correctLetters[3] == myList[3] and correctLetters[4] == myList[4]:
+    print("CONGRATULATIONS!!! ")
+    print("You have guessed the word " + str(secretWord) + "!")
+    break
+  
+  if int(wrong) == int(misses):
+    print()
+    print("GAME OVER!!!") 
+    print("You have ran out of got ran out of wrong guesses. The correct word was " + secretWord + ". ")
+    break
